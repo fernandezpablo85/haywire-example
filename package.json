@@ -1,0 +1,27 @@
+{
+  "name": "haywire-example",
+  "version": "1.0.0",
+  "author": "Pablo Fernandez <fernandezpablo85@gmail.com>",
+  "keywords": [
+    "sample",
+    "offline"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fernandezpablo85/haywire-example"
+  },
+  "dependencies": {
+    "connect": "~3.3.5",
+    "serve-static": "~1.9.3"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "typescript": "~1.4.1",
+    "grunt-typescript": "~0.6.1"
+  },
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "grunt",
+    "start": "node index.js"
+  }
+}

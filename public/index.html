@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Haywire example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+    <script src="js/haywire.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+      main {
+        flex: 1 0 auto;
+      }
+
+      .section .card {
+        margin: 5px;
+        text-align: center;
+      }
+      .section .card {
+          opacity: 0;
+          animation: new-item-animation .3s linear forwards;
+      }
+
+      @keyframes new-item-animation {
+          from {
+            opacity: 0;
+            transform: translateY(20px) translateX(20px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0) translateX(0);
+          }
+      }
+
+      nav, footer.page-footer {
+        background-color: #424f63;
+      }
+
+    </style>
+  </head>
+  <body>
+  <header>
+  <nav class="" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Haywire example</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a target="_blank" href="http://github.com/fernandezpablo85/haywire-example">Source</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav" style="left: -250px;">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+    </div>
+  </nav>
+  </header>
+  <main class="">
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center indigo-text text-darken-4" id="title">Haywire demo</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Click below to start checking your backend health</h5>
+      </div>
+      <div class="row center">
+        <a id="start" class="btn-large waves-effect waves-light indigo">Start</a>
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+      <div class="row" id="status"></div>
+
+    </div>
+    <br><br>
+
+    <div class="section">
+
+    </div>
+  </div>
+  </main>
+  <footer class="page-footer" style="padding-top: 0px">
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="indigo-text text-lighten-2" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+
+/*
+need to create this:
+
+<div class="card teal {{color}} col s2">
+  <div class="card-content">
+    <span class="card-title">{{status}}</span>
+  </div>
+</div>
+*/
+var createdCard = function (result) {
+  var card = document.createElement('div');
+  card.classList.add('card', 'col', 's2');
+  var content = document.createElement('div');
+  content.classList.add('card-content');
+  var title = document.createElement('span');
+  title.classList.add('card-title');
+
+  if (result.id === 0) {
+    card.classList.add('teal', 'darken-3');
+    title.innerText = 'Ok';
+  }
+  if (result.id === 1) {
+    card.classList.add('amber', 'accent-4');
+    title.innerText = 'Warn';
+  }
+  if (result.id === 2) {
+    card.classList.add('deep-orange', 'accent-4');
+    title.innerText = 'Error';
+  }
+  content.appendChild(title);
+  card.appendChild(content);
+  return card;
+};
+
+var pingResponse = function (result) {
+  var card = createdCard(result);
+  $('#status').append(card);
+};
+
+var onStart = function () {
+  Haywire.start({
+    onChange: pingResponse,
+    threshold: 3
+  });
+};
+
+$(document).ready(function () {
+  $('#start').click(onStart);
+});
+</script>
+
+<div class="hiddendiv common"></div><div class="drag-target" style="left: 0px; touch-action: pan-y; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div></body>
+</html>
